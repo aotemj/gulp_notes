@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const cssmin = require('gulp-cssmin');
 const autoprefixer = require('gulp-autoprefixer')
 const sass = require('gulp-sass')
+const uglify = require('gulp-uglify')
 
 // 公共部分
 const cssTask = gulp
@@ -39,3 +40,13 @@ const scssHandler = function () {
 }
 
 module.exports.scssHandler = scssHandler
+
+
+const jsHandler = function () {
+    return gulp
+        .src('./src/js/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/js/'))
+}
+
+module.exports.jsHandler = jsHandler

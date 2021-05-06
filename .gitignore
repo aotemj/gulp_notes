@@ -1,7 +1,7 @@
 _*
 dist
 /.idea
-/node_modules/
+src/node_modules/
 .DS_Store
 output
 yarn-error.log
