@@ -1,0 +1,12 @@
+_*
+dist
+.idea
+node_modules
+.DS_Store
+output
+yarn-error.log
+
+package-lock.json
+deploy
+html
+node_modules.zip
