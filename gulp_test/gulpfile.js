@@ -1,9 +1,13 @@
 const gulp = require('gulp');
 const cssmin = require('gulp-cssmin');
+const autoprefixer = require('gulp-autoprefixer')
 
 // 公共部分
 const cssTask = gulp
     .src('./src/css/*.css')
+    .pipe(autoprefixer({
+        overrideBrowserslist: ['last 2 versions']
+    }))
     .pipe(cssmin())
     .pipe(gulp.dest('./dist/css/'))
 
@@ -12,7 +16,6 @@ const cssTask = gulp
 //     return cssTask
 // })
 // 创建一个打包 CSS 任务 （gulp3.* 写法） end
-
 
 // 创建一个打包 CSS 任务 （gulp4.* 写法） start
 const cssHandler = function () {

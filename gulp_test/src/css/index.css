@@ -9,4 +9,5 @@ div {
     height: 10px;
     display: flex;
     justify-content: space-between;
+    transition: all 1s;
 }
