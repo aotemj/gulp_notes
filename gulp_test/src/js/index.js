@@ -3,6 +3,6 @@ window.onload = function () {
     c.add('a')
     c.add(1)
     c.add(a)
-    c.add(b)
+    c?.add(b)
     console.log(a, b, c);
 }

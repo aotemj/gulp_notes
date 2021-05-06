@@ -3,6 +3,7 @@ const cssmin = require('gulp-cssmin');
 const autoprefixer = require('gulp-autoprefixer')
 const sass = require('gulp-sass')
 const uglify = require('gulp-uglify')
+const babel = require('gulp-babel')
 
 // 公共部分
 const cssTask = gulp
@@ -42,11 +43,16 @@ const scssHandler = function () {
 module.exports.scssHandler = scssHandler
 
 
+// js 压缩，支持 es新语法（es2020等） start
 const jsHandler = function () {
     return gulp
         .src('./src/js/*.js')
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js/'))
 }
 
 module.exports.jsHandler = jsHandler
+// js 压缩，支持 es新语法（es2020等） end
