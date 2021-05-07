@@ -106,6 +106,14 @@ const webHandler = function () {
 // 创建一个 启动服务器的任务 end
 module.exports.webHandler = webHandler
 
+// 监控变更
+const watchHandler = function () {
+    gulp.watch('./src/css/*.css', cssHandler)
+    gulp.watch('./src/css/*.scss', scssHandler)
+    gulp.watch('./src/js/*.js', jsHandler)
+    gulp.watch('./src/pages/*.html', htmlHandler)
+}
+
 
 // 配置默认任务，执行所有打包任务 start
 module.exports.default = gulp.series(
@@ -116,7 +124,8 @@ module.exports.default = gulp.series(
         htmlHandler,
         jsHandler
     ),
-    webHandler
+    webHandler,
+    watchHandler
 )
 // 配置默认任务，执行所有打包任务 end
 
