@@ -106,17 +106,18 @@ const webHandler = function () {
 // 创建一个 启动服务器的任务 end
 module.exports.webHandler = webHandler
 
+
 // 配置默认任务，执行所有打包任务 start
-module.exports.default = function (done) {
-    // gulp.series(delHandler, )
-    console.log('default');
-    cssHandler()
-    scssHandler()
-    htmlHandler()
-    jsHandler()
-    webHandler()
-    done()
-}
+module.exports.default = gulp.series(
+    delHandler,
+    gulp.parallel(
+        cssHandler,
+        scssHandler,
+        htmlHandler,
+        jsHandler
+    ),
+    webHandler
+)
 // 配置默认任务，执行所有打包任务 end
 
 
