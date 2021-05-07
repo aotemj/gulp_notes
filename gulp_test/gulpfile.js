@@ -91,10 +91,11 @@ const webHandler = function () {
     return gulp
         .src('./dist')
         .pipe(webServer({
-            port: 8080,
-            host: 'localhost',
-            livereload: true,
-            open: 'html/index.html',
+            port: 8080, // 服务端口
+            host: 'localhost', // 服务域名
+            livereload: true, // 热加载
+            open: 'html/index.html', //  默认打开页面
+            // 代理（可以设置多个代理）
             proxies: [
                 {
                     source: '/gx',
@@ -103,8 +104,8 @@ const webHandler = function () {
             ]
         }))
 }
-// 创建一个 启动服务器的任务 end
 module.exports.webHandler = webHandler
+// 创建一个 启动服务器的任务 end
 
 // 监控变更
 const watchHandler = function () {
