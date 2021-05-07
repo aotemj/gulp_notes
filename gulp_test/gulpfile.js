@@ -6,26 +6,9 @@ const uglify = require('gulp-uglify')
 const babel = require('gulp-babel')
 const htmlmin = require('gulp-htmlmin')
 const del = require('del')
-// const rimraf = require('rimraf')
+const webServer = require("gulp-webserver")
 
-// 公共部分
-const cssTask = gulp
-    .src('./src/css/*.css')
-    .pipe(autoprefixer({
-        overrideBrowserslist: ['last 2 versions']
-    }))
 
-    .pipe(cssmin())
-    .pipe(gulp.dest('./dist/css/'))
-
-const sassTask = gulp
-    .src('./src/css/*.scss')
-    .pipe(sass())
-    .pipe(autoprefixer({
-        overrideBrowserslist: ['last 2 versions']
-    }))
-    .pipe(cssmin())
-    .pipe(gulp.dest('./dist/css/'))
 // 创建一个打包 CSS 任务 （gulp3.* 写法） start
 // gulp.task('cssHandler', function () {
 //     return cssTask
@@ -34,14 +17,27 @@ const sassTask = gulp
 
 // 创建一个打包 CSS 任务 （gulp4.* 写法） start
 const cssHandler = function () {
-    return cssTask
+    return gulp
+        .src('./src/css/*.css')
+        .pipe(autoprefixer({
+            overrideBrowserslist: ['last 2 versions']
+        }))
+        .pipe(cssmin())
+        .pipe(gulp.dest('./dist/css/'))
 }
 
 module.exports.cssHandler = cssHandler
 // 创建一个打包 CSS 任务 （gulp4.* 写法） end
 
 const scssHandler = function () {
-    return sassTask
+    return gulp
+        .src('./src/css/*.scss')
+        .pipe(sass())
+        .pipe(autoprefixer({
+            overrideBrowserslist: ['last 2 versions']
+        }))
+        .pipe(cssmin())
+        .pipe(gulp.dest('./dist/css/'))
 }
 
 module.exports.scssHandler = scssHandler
@@ -84,23 +80,43 @@ module.exports.htmlHandler = htmlHandler
 
 // 删除打包文件 start
 const delHandler = function () {
-    return del(['./dist'])
+    return del(['dist'])
 }
 
 module.exports.delHandler = delHandler
 // 删除打包文件 end
 
-// 配置默认任务，执行所有打包任务 start
-module.exports.default = function () {
-    return gulp.parallel(cssHandler, htmlHandler, jsHandler, scssHandler)
-}
-// 配置默认任务，执行所有打包任务 end
-
 // 创建一个 启动服务器的任务 start
 const webHandler = function () {
     return gulp
-        .src()
+        .src('./dist')
+        .pipe(webServer({
+            port: 8080,
+            host: 'localhost',
+            livereload: true,
+            open: 'html/index.html',
+            proxies: [
+                {
+                    source: '/gx',
+                    target: 'https://www.duitang.com/napi/blog/list/by_filter_id/'
+                }
+            ]
+        }))
 }
 // 创建一个 启动服务器的任务 end
+module.exports.webHandler = webHandler
+
+// 配置默认任务，执行所有打包任务 start
+module.exports.default = function (done) {
+    // gulp.series(delHandler, )
+    console.log('default');
+    cssHandler()
+    scssHandler()
+    htmlHandler()
+    jsHandler()
+    webHandler()
+    done()
+}
+// 配置默认任务，执行所有打包任务 end
 
 
